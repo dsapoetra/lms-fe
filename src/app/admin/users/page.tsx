@@ -6,6 +6,7 @@ import { User } from '@/types';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { getApiUrl } from '@/lib/api';
 
 export default function UserManagementPage() {
   const { user, token, isLoading, isAuthenticated } = useAuth();
@@ -16,7 +17,7 @@ export default function UserManagementPage() {
     if (user?.role === 'instructor' && token) {
       const fetchUsers = async () => {
         try {
-          const res = await fetch(`http://localhost:8088/api/users/`, {
+                    const res = await fetch(getApiUrl(`users/`), {
             headers: { 'Authorization': `Bearer ${token}` },
           });
 

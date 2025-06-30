@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Course, Enrollment } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { getApiUrl } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
@@ -16,7 +17,7 @@ export default function DashboardPage() {
     if (user?.role === 'student' && token) {
       const fetchEnrollments = async () => {
         try {
-          const res = await fetch(`http://localhost:8088/api/users/${user.id}/enrollments/`, {
+                    const res = await fetch(getApiUrl(`users/${user.id}/enrollments/`), {
             headers: { 'Authorization': `Bearer ${token}` },
           });
 
@@ -26,7 +27,7 @@ export default function DashboardPage() {
           if (enrollments && enrollments.length > 0) {
             // Fetch details for each enrolled course
             const coursePromises = enrollments.map(enrollment =>
-              fetch(`http://localhost:8088/api/courses/${enrollment.course_id}`, {
+                            fetch(getApiUrl(`courses/${enrollment.course_id}`), {
                 headers: { 'Authorization': `Bearer ${token}` },
               }).then(res => res.json())
             );

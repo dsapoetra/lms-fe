@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { getApiUrl } from '@/lib/api';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface ContentItem {
@@ -63,7 +64,7 @@ export default function CreateCoursePage() {
     if (!token) return;
 
     try {
-      const res = await fetch('http://localhost:8088/api/courses/', {
+            const res = await fetch(getApiUrl('courses/'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

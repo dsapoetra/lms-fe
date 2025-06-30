@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { getApiUrl } from '@/lib/api';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
@@ -17,7 +18,7 @@ export default function RegisterPage() {
     setMessage('');
 
     try {
-      const res = await fetch('http://localhost:8088/api/register', {
+            const res = await fetch(getApiUrl('register'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

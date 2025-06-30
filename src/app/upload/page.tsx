@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { getApiUrl } from '@/lib/api';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
@@ -37,7 +38,7 @@ export default function UploadPage() {
         return;
       }
 
-      const res = await fetch('http://localhost:8088/api/upload/', {
+            const res = await fetch(getApiUrl('upload/'), {
         method: 'POST',
         headers: {
           // 'Content-Type': 'multipart/form-data' is set automatically by the browser

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Course } from '@/types';
+import { getApiUrl } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -16,7 +17,7 @@ export default function CoursesPage() {
     if (isAuthenticated) {
       const fetchCourses = async () => {
         try {
-          const res = await fetch('http://localhost:8088/api/courses/', {
+                    const res = await fetch(getApiUrl('courses/'), {
             headers: {
               'Authorization': `Bearer ${token}`,
             },

@@ -7,6 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import Link from 'next/link';
+import { getApiUrl } from '@/lib/api';
 
 const getVideoEmbedUrl = (url: string): string => {
   if (!url) return "";
@@ -37,7 +38,7 @@ export default function CourseDetailPage() {
     if (id && token) {
       const fetchCourse = async () => {
         try {
-          const res = await fetch(`http://localhost:8088/api/courses/${id}`,
+                    const res = await fetch(getApiUrl(`courses/${id}`),
           {
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -61,7 +62,7 @@ export default function CourseDetailPage() {
   const handleEnroll = async () => {
     if (!id || !token) return;
     try {
-      const res = await fetch('http://localhost:8088/api/enrollments/', {
+            const res = await fetch(getApiUrl('enrollments/'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

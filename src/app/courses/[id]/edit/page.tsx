@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Course, Lesson, Content, Enrollment, User } from '@/types';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { getApiUrl } from '@/lib/api';
 
 export default function EditCoursePage() {
   const [course, setCourse] = useState<Course | null>(null);
@@ -25,7 +26,7 @@ export default function EditCoursePage() {
   useEffect(() => {
     if (id && token) {
       const fetchCourse = async () => {
-        const res = await fetch(`http://localhost:8088/api/courses/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const res = await fetch(getApiUrl(`courses/${id}`), { headers: { 'Authorization': `Bearer ${token}` } });
         if (res.ok) {
           const data: Course = await res.json();
           if (user?.id !== data.instructor_id) {
@@ -49,7 +50,7 @@ export default function EditCoursePage() {
     if (id && token && user?.role === 'instructor') {
       const fetchEnrollments = async () => {
         try {
-          const res = await fetch(`http://localhost:8088/api/courses/${id}/enrollments/`, {
+                    const res = await fetch(getApiUrl(`courses/${id}/enrollments/`), {
             headers: { 'Authorization': `Bearer ${token}` },
           });
           if (!res.ok) throw new Error('Failed to fetch enrollments');
@@ -58,7 +59,7 @@ export default function EditCoursePage() {
 
           if (enrollments && enrollments.length > 0) {
             const userPromises = enrollments.map(enrollment =>
-              fetch(`http://localhost:8088/api/users/${enrollment.user_id}`, {
+                            fetch(getApiUrl(`users/${enrollment.user_id}`), {
                 headers: { 'Authorization': `Bearer ${token}` },
               }).then(res => res.json())
             );
@@ -79,7 +80,7 @@ export default function EditCoursePage() {
     e.preventDefault();
     if (!token || !id) return;
 
-    const res = await fetch(`http://localhost:8088/api/courses/${id}/`, {
+        const res = await fetch(getApiUrl(`courses/${id}/`), {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify({ title, description, lessons }),
@@ -97,7 +98,7 @@ export default function EditCoursePage() {
   const handleDelete = async () => {
     if (!token || !id || !window.confirm('Are you sure you want to delete this course?')) return;
 
-    const res = await fetch(`http://localhost:8088/api/courses/${id}/`, {
+        const res = await fetch(getApiUrl(`courses/${id}/`), {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` },
     });

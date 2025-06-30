@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { User } from '@/types';
+import { getApiUrl } from '@/lib/api';
 
 interface AuthContextType {
   user: User | null;
@@ -30,7 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const decoded = jwtDecode<DecodedToken>(jwt);
       const userId = decoded.user_id;
 
-      const res = await fetch(`http://localhost:8088/api/users/${userId}`, {
+            const res = await fetch(getApiUrl(`users/${userId}`), {
         headers: {
           'Authorization': `Bearer ${jwt}`,
         },
@@ -68,7 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string): Promise<{ success: boolean; message: string }> => {
     setIsLoading(true);
     try {
-      const res = await fetch('http://localhost:8088/api/login', {
+            const res = await fetch(getApiUrl('login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
